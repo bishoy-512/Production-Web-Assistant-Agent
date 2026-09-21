@@ -1,0 +1,17 @@
+[project]
+name = "Production-Grade-AI-Agentic-System"
+version = "0.1.0"
+description = "A production grade AI agentic system."
+authors = [
+    { name="Bishoy Amgad", email="bishoy.amgad71@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.13"
+license = { file = "LICENSE" }
+keywords = ["chatbot", "ai agentic system"]
+dependencies = [
+    "pydantic-settings>=2.15.0",
+]
+
+[project.urls]                                              # Project repository URL
+Repository = "https://github.com/bishoy-512/Production-Web-Assistant-Agent.git"

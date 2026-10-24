@@ -1,0 +1,5 @@
+{"timestamp": "2026-10-24T14:54:21.689277Z", "level": "info", "event": "logging_initialized Adham", "logger": "__main__", "environment": "development", "debug": true, "log_level": "DEBUG", "log_renderer": "console"}
+{"timestamp": "2026-10-24T14:54:21.701298Z", "level": "info", "event": "logging_initialized", "logger": "__main__", "environment": "development", "debug": true, "log_level": "DEBUG", "log_renderer": "console"}
+{"timestamp": "2026-10-24T14:54:21.708552Z", "level": "debug", "event": "test_debug", "logger": "__main__", "environment": "development", "debug": true, "log_level": "DEBUG", "log_renderer": "console"}
+{"timestamp": "2026-10-24T14:54:21.713775Z", "level": "warning", "event": "test_warning", "logger": "__main__", "environment": "development", "debug": true, "log_level": "DEBUG", "log_renderer": "console"}
+{"timestamp": "2026-10-24T14:54:21.719912Z", "level": "error", "event": "test_error", "logger": "__main__", "environment": "development", "debug": true, "log_level": "DEBUG", "log_renderer": "console"}

@@ -1,6 +1,9 @@
 from enum import StrEnum
 from pathlib import Path
 from dotenv import load_dotenv
+from pydantic_settings import BaseSettings,SettingsConfigDict
+from pydantic import Field,field_validator,model_validator
+from typing import Optional
 import os
 
 class Environment(StrEnum):
@@ -9,6 +12,15 @@ class Environment(StrEnum):
     TEST = "test"
     PRODUCTION = "production"
     
+class LogLevel(StrEnum):
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+
+class LogRenderer(StrEnum):
+    CONSOLE = "console"
+    JSON = "json"
 
 def get_environment() -> Environment:
     match os.getenv("APP_ENV", "development").lower():
@@ -36,3 +48,68 @@ def load_env_file() -> str | Path | None:
             load_dotenv(env_file, override=True)
             print(f"Loaded environment from {env_file}")
             return env_file
+        
+ENV_FILE = load_env_file()
+
+class Settings(BaseSettings):
+    # Project Information
+    APP_ENV: Environment = Field(...)
+    APP_NAME: str = Field(..., max_length=100)
+    VERSION: str = Field(...)
+    PROJECT_ROOT: str = Field(...)
+    
+    # Logging Settings
+    DEBUG: Optional[bool] = Field(default=None)
+    LOG_LEVEL: Optional[LogLevel] = Field(default=None)
+    LOG_RENDER: Optional[LogRenderer] = Field(default=None)
+    LOG_DIR: Optional[str] = Field(default="storage/logs")
+    LOG_MAX_BYTES: Optional[int] = Field(default=10485760)
+    LOG_BACKUP_COUNT: Optional[int] = Field(default=10)
+    
+    
+    model_config = SettingsConfigDict(env_file=ENV_FILE)
+    
+    @field_validator("APP_ENV", mode="before")
+    @classmethod
+    def normalize_environment(cls, value: str) -> str:
+        if isinstance(value, Environment):
+            return value
+
+        aliases = {
+            "dev": "development",
+            "development": "development",
+            "stage": "staging",
+            "staging": "staging",
+            "prod": "production",
+            "production": "production",
+            "test": "test",
+            "testing": "test",
+        }
+
+        normalized_env = aliases.get(str(value).lower())
+        if normalized_env is None:
+            raise ValueError(
+                f"Invalid APP_ENV '{value}'."
+                f"Expected one of: {', '.join(sorted(aliases.keys()))}"
+            )
+
+        return normalized_env
+    
+def get_settings():
+    return Settings()
+
+settings = get_settings()
+
+
+def main():
+    """Entry Point for the Program."""
+    print(
+        f"Welcome from `{os.path.basename(__file__).split('.')[0]}` Module. Nothing to do ^_____^!"
+    )
+    for key, value in settings.model_dump().items():
+        print(f"{key}: {value}")
+
+
+if __name__ == "__main__":
+    main()
+

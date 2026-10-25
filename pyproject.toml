@@ -10,21 +10,20 @@ requires-python = ">=3.13"
 license = { file = "LICENSE" }
 keywords = ["chatbot", "ai agentic system"]
 dependencies = [
+    "asyncpg>=0.32.0",
     "colorama>=0.4.6",
     "concurrent-log-handler>=0.9.31",
     "pydantic-settings>=2.15.0",
+    "sqlalchemy[asyncio]>=2.1.6",
     "structlog>=26.1.0",
 ]
 
-[project.urls]                                              # Project repository URL
+[project.urls]
 Repository = "https://github.com/bishoy-512/Production-Web-Assistant-Agent.git"
 
-# Setuptools Configuration
-# ==========================
-# Uses the src/ project layout instead of placing packages at the repository root
-[tool.setuptools]
-package-dir = {"" = "src"}                                 # Treat src/ as the root package directory
 
-# Automatically discover Python packages inside src/
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
-where = ["src"]      
+where = ["src"]
